@@ -26,4 +26,24 @@ openssl x509 -text -noout -in client/pavel.crt
 openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.pem -in client/pavel.crt -certfile server/myCertificate.crt
 ```
 ### Put Key under /resources/keystore ###
+    keyStore.p12 -- Server's key
+    trustStore.jks -- CA
 ### Configue in application.properties ###
+```
+server.port=8443
+server.servlet.context-path=/
+# The format used for the keystore
+server.ssl.key-store-type=PKCS12
+# The path to the keystore containing the certificate
+server.ssl.key-store=classpath:keystore/keyStore.p12
+# The password used to generate the certificate
+server.ssl.key-store-password=123456
+# Trust store that holds SSL certificates.
+server.ssl.trust-store=classpath:keystore/trustStore.jks
+# Password used to access the trust store.
+server.ssl.trust-store-password=123456
+# Type of the trust store.
+server.ssl.trust-store-type=JKS
+# Whether client authentication is wanted ("want") or needed ("need").
+server.ssl.client-auth=need
+```
