@@ -1,3 +1,4 @@
+### Create Key ###
 ```
 #Create folders to generate all files (separated for client and server)
 mkdir ssl && cd ssl && mkdir client && mkdir server
@@ -24,3 +25,5 @@ openssl x509 -text -noout -in client/pavel.crt
 # Create PKCS12 keystore containing client's private key and related self-sign certificate 
 openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.pem -in client/pavel.crt -certfile server/myCertificate.crt
 ```
+### Put Key under /resources/keystore ###
+### Configue in application.properties ###
