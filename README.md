@@ -17,7 +17,7 @@ openssl req -new -newkey rsa:4096 -out client/request.csr -keyout client/myPriva
 
 ## Server
 # Sign client's CSR with server private key and a related certificate
-openssl x509 -req -days 360 -in request.csr -CA server/server.crt -CAkey server/serverPrivateKey.pem -CAcreateserial -out client/pavel.crt -sha256
+openssl x509 -req -days 360 -in client/request.csr -CA server/server.crt -CAkey server/serverPrivateKey.pem -CAcreateserial -out client/pavel.crt -sha256
 
 ## Client
 # Verify client's certificate
