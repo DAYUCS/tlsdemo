@@ -23,7 +23,7 @@ openssl x509 -req -days 360 -in client/request.csr -CA server/server.crt -CAkey 
 # Verify client's certificate
 openssl x509 -text -noout -in client/pavel.crt
 # Create PKCS12 keystore containing client's private key and related self-sign certificate 
-openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.pem -in client/pavel.crt -certfile server/myCertificate.crt
+openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.pem -in client/pavel.crt -certfile server/server.crt
 ```
 ### Put Key under /resources/keystore ###
     keyStore.p12 -- Server's key
