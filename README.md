@@ -26,8 +26,8 @@ openssl x509 -text -noout -in client/pavel.crt
 openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.pem -in client/pavel.crt -certfile server/server.crt
 ```
 ### Put Key under /resources/keystore ###
-    keyStore.p12 -- Server's key
-    trustStore.jks -- CA
+    keyStore.p12 -- Server's key & certificate
+    trustStore.p12 -- Server's certificate as CA
 ### Configue in application.properties ###
 ```
 sserver.port=8443
