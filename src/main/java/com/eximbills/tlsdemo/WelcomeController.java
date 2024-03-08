@@ -22,7 +22,7 @@ public class WelcomeController {
     public String csexim(@RequestBody String lcBody, HttpServletRequest request) {
         X509Certificate[] certificates = (X509Certificate[]) request
                 .getAttribute("jakarta.servlet.request.X509Certificate");
-        if (certificates.length > 0) {
+        if (certificates != null && certificates.length > 0) {
             lcBody = lcBody + " " + certificates[0].getSubjectX500Principal().getName();
         }
         return lcBody;

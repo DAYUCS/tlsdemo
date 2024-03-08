@@ -9,7 +9,7 @@ openssl req -x509 -newkey rsa:4096 -keyout server/serverPrivateKey.pem -out serv
 # Create PKCS12 keystore containing private key and related self-sign certificate
 openssl pkcs12 -export -out server/keyStore.p12 -inkey server/serverPrivateKey.pem -in server/server.crt
 # Generate server trust store from server certificate 
-keytool -import -trustcacerts -alias root -file server/server.crt -keystore server/trustStore.jks
+keytool -import -trustcacerts -alias rootCA -file server/server.crt -keystore server/trustStore.p12
 
 ## Client
 # Generate client's private key and a certificate signing request (CSR)
@@ -30,7 +30,7 @@ openssl pkcs12 -export -out client/client_pavel.p12 -inkey client/myPrivateKey.p
     trustStore.jks -- CA
 ### Configue in application.properties ###
 ```
-server.port=8443
+sserver.port=8443
 server.servlet.context-path=/
 # The format used for the keystore
 server.ssl.key-store-type=PKCS12
@@ -39,11 +39,11 @@ server.ssl.key-store=classpath:keystore/keyStore.p12
 # The password used to generate the certificate
 server.ssl.key-store-password=123456
 # Trust store that holds SSL certificates.
-server.ssl.trust-store=classpath:keystore/trustStore.jks
+server.ssl.trust-store=classpath:keystore/trustStore.p12
 # Password used to access the trust store.
 server.ssl.trust-store-password=123456
 # Type of the trust store.
-server.ssl.trust-store-type=JKS
+server.ssl.trust-store-type=PKCS12
 # Whether client authentication is wanted ("want") or needed ("need").
-server.ssl.client-auth=need
+server.ssl.client-auth=want
 ```
