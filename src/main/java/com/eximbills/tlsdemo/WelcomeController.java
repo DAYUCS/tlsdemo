@@ -24,7 +24,8 @@ public class WelcomeController {
                 .getAttribute("jakarta.servlet.request.X509Certificate");
         if (certificates != null && certificates.length > 0) {
             lcBody = lcBody + " " + certificates[0].getSubjectX500Principal().getName();
-        }
+        };
+        System.out.println(lcBody);
         return lcBody;
     };
 
