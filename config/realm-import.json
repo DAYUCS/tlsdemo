@@ -63,12 +63,11 @@
       {
         "clientId": "authz-servlet",
         "enabled": true,
-        "baseUrl": "https://10.39.101.186:8443/authz-servlet",
-        "adminUrl": "https://10.39.101.186:8443/authz-servlet",
+        "baseUrl": "https://10.39.101.186:8443",
+        "adminUrl": "https://10.39.101.186:8443",
         "bearerOnly": false,
         "redirectUris": [
-          "https://10.39.101.186:8443/authz-servlet/*",
-          "https://10.39.101.186:8443/authz-servlet/*"
+          "https://10.39.101.186:8443/*"
         ],
         "secret": "secret",
         "authorizationServicesEnabled": true,
