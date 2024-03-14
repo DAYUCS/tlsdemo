@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class WelcomeController {
 
-    private static final String WELCOME_URL = "https://localhost/welcome";
+    private static final String WELCOME_URL = "https://localhost:8443/welcome";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -30,24 +32,25 @@ public class WelcomeController {
     // Https GET service
     @GetMapping("/welcome")
     public String welcomewelcome(@RequestParam(required = false, value = "name") String name,
-            HttpServletRequest request) {
+            HttpServletRequest request, @AuthenticationPrincipal Jwt jwt) {
         X509Certificate[] certificates = (X509Certificate[]) request
                 .getAttribute("jakarta.servlet.request.X509Certificate");
         if (certificates != null && certificates.length > 0) {
             name = name + " with cert " + certificates[0].getSubjectX500Principal().getName();
         }
-        return "welcome " + name;
+        return "welcome " + name + " with jwt " + jwt.getClaimAsString("preferred_username");
     };
 
     // Https POST service
     @PostMapping("/csexim")
-    public String csexim(@RequestBody String lcBody, HttpServletRequest request) {
+    public String csexim(@RequestBody String lcBody, HttpServletRequest request, @AuthenticationPrincipal Jwt jwt) {
         X509Certificate[] certificates = (X509Certificate[]) request
                 .getAttribute("jakarta.servlet.request.X509Certificate");
         if (certificates != null && certificates.length > 0) {
             System.out.println(certificates[0].getSubjectX500Principal().getName());
         }
         System.out.println(lcBody);
+        System.out.println(jwt.getClaimAsString("preferred_username"));
         return lcBody;
     };
 
