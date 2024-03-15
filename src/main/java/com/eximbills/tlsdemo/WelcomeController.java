@@ -1,8 +1,13 @@
 package com.eximbills.tlsdemo;
 
 import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,15 +22,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 public class WelcomeController {
 
-    private static final String WELCOME_URL = "https://localhost:8443/welcome";
+    private static final String WELCOME_URL = "https://localhost:8443/welcome?name={name}";
 
     @Autowired
     private RestTemplate restTemplate;
 
     // Access another https service with this server's certificate
     @GetMapping("/welcomeclient")
-    public String greetMessage() {
-        String response = restTemplate.getForObject(WELCOME_URL, String.class);
+    public String greetMessage(@RequestParam(required = false, value = "name") String name,
+            HttpServletRequest request, @AuthenticationPrincipal Jwt jwt) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwt.getTokenValue());
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        Map<String, String> params = Collections.singletonMap("name", name);
+        String response = restTemplate.exchange(WELCOME_URL, HttpMethod.GET, entity, String.class, params).getBody();
         return response;
     }
 
